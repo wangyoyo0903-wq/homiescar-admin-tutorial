@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomiesCar 管理员操作手册</title>
+    <title>米车 Club 会长/管理员操作指南</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -414,6 +414,37 @@
             color: #3498DB;
         }
 
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+        }
+
+        .feature-icon {
+            font-size: 18px;
+            min-width: 24px;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .feature-text strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
         .footer {
             text-align: center;
             padding: 48px 20px;
@@ -439,6 +470,9 @@
             .image-card {
                 max-width: 100%;
             }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -452,8 +486,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h1>HomiesCar</h1>
-                    <p>管理员操作手册</p>
+                    <h1>米车 Club</h1>
+                    <p>管理员操作指南</p>
                 </div>
             </div>
         </div>
@@ -492,6 +526,18 @@
                 <span class="icon">📝</span>
                 <span>内容管理</span>
             </a>
+            <a href="#mall" class="nav-item">
+                <span class="icon">🛒</span>
+                <span>商城管理</span>
+            </a>
+            <a href="#catch" class="nav-item">
+                <span class="icon">🔍</span>
+                <span>抓车友</span>
+            </a>
+            <a href="#invite" class="nav-item">
+                <span class="icon">📨</span>
+                <span>邀请好友</span>
+            </a>
             <a href="#club" class="nav-item">
                 <span class="icon">🏠</span>
                 <span>车友会配置</span>
@@ -506,8 +552,8 @@
     <main>
         <div class="content">
             <div id="start" class="doc-header">
-                <h1>HomiesCar 管理员操作手册</h1>
-                <p>本手册将帮助您快速掌握 HomiesCar 小程序的管理功能，包括用户管理、内容审核、活动发布、抽奖配置等核心操作。</p>
+                <h1>米车 Club 会长/管理员操作指南</h1>
+                <p>本指南将帮助您快速掌握米车 Club 小程序的管理功能，包括用户管理、内容审核、活动发布、商城运营等核心操作。</p>
                 <div class="doc-meta">
                     <div class="doc-meta-item">
                         <span class="label">版本</span>
@@ -515,11 +561,11 @@
                     </div>
                     <div class="doc-meta-item">
                         <span class="label">更新日期</span>
-                        <span class="value">2026-03-17</span>
+                        <span class="value">2026-03-18</span>
                     </div>
                     <div class="doc-meta-item">
                         <span class="label">适用对象</span>
-                        <span class="value">车友会管理员、会长</span>
+                        <span class="value">车友会会长、管理员</span>
                     </div>
                     <div class="doc-meta-item">
                         <span class="doc-badge">
@@ -707,8 +753,8 @@
                         <div class="step-item">
                             <div class="step-num">3</div>
                             <div class="step-content">
-                                <h4>设置报名规则</h4>
-                                <p>可设置是否需要审核、报名截止时间等</p>
+                                <h4>配置活动设置</h4>
+                                <p>设置报名规则、分组、需要收集的信息等</p>
                             </div>
                         </div>
                         <div class="step-item">
@@ -721,9 +767,43 @@
                     </div>
                 </div>
 
+                <div class="step-box">
+                    <div class="step-box-title">⚙️ 活动设置说明</div>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">👥</span>
+                            <div class="feature-text"><strong>人数限制</strong> - 设置活动最大人数，0表示不限制</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✅</span>
+                            <div class="feature-text"><strong>报名需审核</strong> - 开启后报名需要管理员审核</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📌</span>
+                            <div class="feature-text"><strong>置顶活动</strong> - 活动会显示在列表顶部</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📂</span>
+                            <div class="feature-text"><strong>分组报名</strong> - 可设置多个分组，每组可设置人数和费用</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🚗</span>
+                            <div class="feature-text"><strong>车辆信息</strong> - 自动导入用户已登记的车辆信息，用户也可手动填写</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🆔</span>
+                            <div class="feature-text"><strong>米ID</strong> - 自动导入用户的米ID，用户也可手动填写</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💬</span>
+                            <div class="feature-text"><strong>活动群二维码</strong> - 上传微信群二维码，方便用户加入活动群</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="tip-box">
                     <div class="tip-box-title">💡 小提示</div>
-                    <p>活动发布后，部分信息可以修改。如果活动已有用户报名，修改信息后建议在评论区通知已报名用户。</p>
+                    <p>开启「车辆信息」或「米ID」后，系统会自动导入用户已登记的信息，用户也可手动修改补充。</p>
                 </div>
             </div>
 
@@ -816,13 +896,201 @@
                 </div>
             </div>
 
-            <div id="club" class="section">
+            <div id="mall" class="section">
                 <div class="section-header">
                     <span class="section-number">7</span>
+                    <h2 class="section-title">商城管理</h2>
+                </div>
+                <div class="section-desc">
+                    管理积分商城的商品，设置可兑换的奖品。<strong>此功能仅会长可用</strong>。
+                </div>
+
+                <div class="image-grid">
+                    <div class="image-card">
+                        <img src="photo/16.png" alt="商城管理页面">
+                        <div class="image-card-caption">
+                            <strong>图16：</strong>商城管理页面，管理积分兑换商品列表
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="photo/17.png" alt="上架商品入口">
+                        <div class="image-card-caption">
+                            <strong>图17：</strong>点击右下角「+」按钮，添加新的兑换商品
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-box-title">📝 上架商品步骤</div>
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-num">1</div>
+                            <div class="step-content">
+                                <h4>添加商品</h4>
+                                <p>点击商城管理页面右下角的「+」按钮</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">2</div>
+                            <div class="step-content">
+                                <h4>填写商品信息</h4>
+                                <p>输入商品名称、描述、所需积分、库存数量</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">3</div>
+                            <div class="step-content">
+                                <h4>选择商品类型</h4>
+                                <p>实物商品需要邮寄，虚拟商品在线发放</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">4</div>
+                            <div class="step-content">
+                                <h4>上传商品图片</h4>
+                                <p>上传商品展示图片，建议1:1比例</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">5</div>
+                            <div class="step-content">
+                                <h4>设置上架状态</h4>
+                                <p>选择「上架」后保存，用户即可在积分商城看到</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-box-title">💡 小提示</div>
+                    <p>可以在商城管理页面查看兑换订单，及时处理用户的兑换申请。</p>
+                </div>
+            </div>
+
+            <div id="catch" class="section">
+                <div class="section-header">
+                    <span class="section-number">8</span>
+                    <h2 class="section-title">抓车友</h2>
+                </div>
+                <div class="section-desc">
+                    通过车牌号搜索车友，快速找到志同道合的伙伴。管理员可以鼓励车友使用此功能发现更多朋友。
+                </div>
+
+                <div class="image-card wide">
+                    <img src="photo/18.png" alt="抓车友页面">
+                    <div class="image-card-caption">
+                        <strong>图18：</strong>抓车友页面，输入车牌号搜索车友
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-box-title">📝 功能说明</div>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">🔍</span>
+                            <div class="feature-text"><strong>车牌搜索</strong> - 输入车牌号查找对应车友</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <div class="feature-text"><strong>新能源车牌</strong> - 支持新能源车牌搜索</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📷</span>
+                            <div class="feature-text"><strong>拍照识别</strong> - 拍照自动识别车牌号</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🏆</span>
+                            <div class="feature-text"><strong>排行榜</strong> - 查看抓车友排行榜</div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📨</span>
+                            <div class="feature-text"><strong>邀请加入</strong> - 未找到时可邀请对方加入车友会</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-box-title">💡 运营建议</div>
+                    <p>可以在车友会活动中推广「抓车友」功能，鼓励车友互相搜索、添加好友，增强社区互动。</p>
+                </div>
+            </div>
+
+            <div id="invite" class="section">
+                <div class="section-header">
+                    <span class="section-number">9</span>
+                    <h2 class="section-title">邀请好友</h2>
+                </div>
+                <div class="section-desc">
+                    鼓励车友邀请新人加入，扩大车友会规模。提供精美的邀请海报，让分享更有吸引力。
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-box-title">📍 入口位置</div>
+                    <p>我的 → 积分中心 → 邀请好友</p>
+                </div>
+
+                <div class="image-grid">
+                    <div class="image-card">
+                        <img src="photo/21.png" alt="积分中心页面">
+                        <div class="image-card-caption">
+                            <strong>图21：</strong>积分中心页面，点击「邀请好友」任务
+                        </div>
+                    </div>
+                    <div class="image-card">
+                        <img src="photo/20.png" alt="邀请模版选择">
+                        <div class="image-card-caption">
+                            <strong>图20：</strong>选择喜欢的邀请海报模版
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-card wide">
+                    <img src="photo/19.png" alt="邀请函页面">
+                    <div class="image-card-caption">
+                        <strong>图19：</strong>生成的邀请海报，可分享给好友或保存到相册
+                    </div>
+                </div>
+
+                <div class="step-box">
+                    <div class="step-box-title">📝 邀请规则</div>
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-num">1</div>
+                            <div class="step-content">
+                                <h4>邀请奖励</h4>
+                                <p>每邀请 1 位新用户注册，邀请人可获得 50 积分</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">2</div>
+                            <div class="step-content">
+                                <h4>新人奖励</h4>
+                                <p>被邀请的新用户完成注册后，也可获得 20 积分</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">3</div>
+                            <div class="step-content">
+                                <h4>温馨提示</h4>
+                                <p>先分享海报或小程序卡片，再提醒对方完善车辆信息，抓车友里就能搜到了</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-box-title">💡 运营建议</div>
+                    <p>定期在车友群推广邀请活动，鼓励车友邀请新人。可以设置邀请排行榜，给予邀请最多的车友额外奖励。</p>
+                </div>
+            </div>
+
+            <div id="club" class="section">
+                <div class="section-header">
+                    <span class="section-number">10</span>
                     <h2 class="section-title">车友会配置</h2>
                 </div>
                 <div class="section-desc">
-                    配置车友会的基本信息、展示样式等。此功能仅会长可用。
+                    配置车友会的基本信息、展示样式等。<strong>此功能仅会长可用</strong>。
                 </div>
 
                 <div class="image-grid">
@@ -848,7 +1116,7 @@
 
             <div id="data" class="section">
                 <div class="section-header">
-                    <span class="section-number">8</span>
+                    <span class="section-number">11</span>
                     <h2 class="section-title">数据中心</h2>
                 </div>
                 <div class="section-desc">
@@ -891,8 +1159,8 @@
             </div>
 
             <div class="footer">
-                <p>HomiesCar 车友会 · 让每一次出行都充满期待</p>
-                <p style="margin-top: 8px; opacity: 0.5;">© 2026 HomiesCar. All rights reserved.</p>
+                <p>米车 Club · 让每一次出行都充满期待</p>
+                <p style="margin-top: 8px; opacity: 0.5;">© 2026 米车 Club. All rights reserved.</p>
             </div>
         </div>
     </main>
@@ -901,7 +1169,7 @@
         const navItems = document.querySelectorAll('.nav-item');
         
         window.addEventListener('scroll', function() {
-            const sections = ['start', 'entry', 'user', 'review', 'activity', 'lottery', 'content', 'club', 'data'];
+            const sections = ['start', 'entry', 'user', 'review', 'activity', 'lottery', 'content', 'mall', 'catch', 'invite', 'club', 'data'];
             let current = '';
             
             sections.forEach(id => {
