@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>米车 Club - 找到你的车友圈</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #E74C3C;
+            --color-accent: #3498DB;
+            --color-success: #27AE60;
+            --color-warning: #F39C12;
+            --color-purple: #9B59B6;
+            --color-pink: #E91E63;
+            --bg-dark: #0a0a0a;
+            --bg-card: #151515;
+            --bg-card-light: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --text-muted: rgba(255,255,255,0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--bg-dark) 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .hero-logo {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, var(--color-primary) 50%, var(--color-warning) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .hero-phone {
+            max-width: 320px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(231, 76, 60, 0.3);
+            border: 3px solid rgba(255,255,255,0.1);
+        }
+
+        .hero-phone img {
+            width: 100%;
+            display: block;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scroll-hint::after {
+            content: '↓';
+            font-size: 24px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        .section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-warning));
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            align-items: center;
+        }
+
+        .feature-content {
+            padding: 20px;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .feature-text {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+
+        .feature-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .feature-tag {
+            padding: 6px 14px;
+            background: var(--bg-card-light);
+            border-radius: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .phone-stack {
+            position: relative;
+            height: 500px;
+        }
+
+        .phone-stack-item {
+            position: absolute;
+            width: 240px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+
+        .phone-stack-item:hover {
+            transform: scale(1.05) !important;
+            z-index: 10;
+        }
+
+        .phone-stack-item img {
+            width: 100%;
+            display: block;
+        }
+
+        .phone-stack-item:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) rotate(-5deg);
+        }
+
+        .phone-stack-item:nth-child(2) {
+            top: 60px;
+            left: 50%;
+            transform: translateX(-80%) rotate(3deg);
+        }
+
+        .phone-stack-item:nth-child(3) {
+            top: 120px;
+            left: 50%;
+            transform: translateX(-20%) rotate(-2deg);
+        }
+
+        .phone-single {
+            max-width: 280px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.1);
+            margin: 0 auto;
+        }
+
+        .phone-single img {
+            width: 100%;
+            display: block;
+        }
+
+        .plate-section {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #0f0f1a 50%, var(--bg-dark) 100%);
+            padding: 100px 20px;
+        }
+
+        .plate-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .plate-item {
+            width: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+
+        .plate-item:hover {
+            transform: scale(1.08);
+        }
+
+        .plate-item:nth-child(1) {
+            transform: rotate(-8deg) translateY(20px);
+        }
+
+        .plate-item:nth-child(2) {
+            transform: rotate(5deg) translateY(-10px);
+        }
+
+        .plate-item:nth-child(3) {
+            transform: rotate(-3deg) translateY(30px);
+        }
+
+        .plate-item img {
+            width: 100%;
+            display: block;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 120px 20px;
+            background: radial-gradient(ellipse at center, rgba(231, 76, 60, 0.1) 0%, transparent 70%);
+        }
+
+        .cta-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cta-desc {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--color-primary), #C0392B);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.5);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .highlight {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .highlight-blue {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .highlight-green {
+            color: var(--color-success);
+            font-weight: 600;
+        }
+
+        .highlight-yellow {
+            color: var(--color-warning);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .phone-stack {
+                height: 400px;
+            }
+
+            .phone-stack-item {
+                width: 180px;
+            }
+
+            .plate-item {
+                width: 150px;
+            }
+
+            .cta-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-logo">🚗</div>
+        <h1 class="hero-title">米车 Club</h1>
+        <p class="hero-subtitle">车友在哪？就在这儿！<br>一起玩车、一起嗨，别再一个人闷头开了</p>
+        <div class="hero-phone">
+            <img src="photo/23.png" alt="米车Club主页">
+        </div>
+        <div class="scroll-hint">往下看看</div>
+    </section>
+
+    <section class="section">
+        <div class="feature-grid">
+            <div class="feature-content">
+                <div class="feature-icon">🔍</div>
+                <h2 class="feature-title">抓车友</h2>
+                <p class="feature-text">
+                    停车场看到一辆帅气的车，想认识车主？<br><br>
+                    <span class="highlight">扫车牌就行</span>，秒找到他！<br>
+                    他还没注册？那更好，邀请他进来，你们就是车友了<br><br>
+                    看看排行榜，谁才是真正的"社交达人" 👀
+                </p>
+                <div class="feature-tags">
+                    <span class="feature-tag">车牌识别</span>
+                    <span class="feature-tag">新能源车牌</span>
+                    <span class="feature-tag">排行榜</span>
+                </div>
+            </div>
+            <div class="phone-single">
+                <img src="photo/18.png" alt="抓车友">
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-card);">
+        <div class="section-header">
+            <span class="section-tag">邀请有礼</span>
+            <h2 class="section-title">喊兄弟一起来</h2>
+            <p class="section-desc">分享海报一发，兄弟就到位</p>
+        </div>
+        <div class="phone-stack">
+            <div class="phone-stack-item">
+                <img src="photo/19.png" alt="邀请函">
+            </div>
+            <div class="phone-stack-item">
+                <img src="photo/20.png" alt="选择模版">
+            </div>
+            <div class="phone-stack-item">
+                <img src="photo/21.png" alt="积分中心">
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px; color: var(--text-secondary); font-size: 16px;">
+            邀请一个好友，<span class="highlight-yellow">你拿50积分</span>，<span class="highlight-green">他拿20积分</span><br>
+            积分能换好东西，多喊多得，懂的都懂！
+        </p>
+    </section>
+
+    <section class="section">
+        <div class="feature-grid">
+            <div class="phone-stack" style="height: 450px;">
+                <div class="phone-stack-item">
+                    <img src="photo/24.png" alt="车友圈">
+                </div>
+                <div class="phone-stack-item">
+                    <img src="photo/25.png" alt="动态">
+                </div>
+                <div class="phone-stack-item">
+                    <img src="photo/26.png" alt="帖子">
+                </div>
+            </div>
+            <div class="feature-content">
+                <div class="feature-icon">💬</div>
+                <h2 class="feature-title">车友圈</h2>
+                <p class="feature-text">
+                    今天自驾去了哪？发现了啥好吃的？<br>
+                    车子改了啥？踩了什么坑？<br><br>
+                    <span class="highlight-blue">发个帖子</span>，和大家唠唠<br>
+                    点赞、评论、转发，车友们的互动从不缺席<br><br>
+                    发帖还能参与抽奖，运气好就中奖！
+                </p>
+                <div class="feature-tags">
+                    <span class="feature-tag">发帖分享</span>
+                    <span class="feature-tag">互动点赞</span>
+                    <span class="feature-tag">抽奖活动</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-card);">
+        <div class="feature-grid">
+            <div class="feature-content">
+                <div class="feature-icon">🎁</div>
+                <h2 class="feature-title">好物推荐</h2>
+                <p class="feature-text">
+                    车品、美食、生活好物...<br>
+                    车友们都在用什么好东西？<br><br>
+                    <span class="highlight-green">发现好物</span>，分享好物<br>
+                    积分还能换心仪的商品<br><br>
+                    好东西，必须安利给车友们！
+                </p>
+                <div class="feature-tags">
+                    <span class="feature-tag">车品推荐</span>
+                    <span class="feature-tag">美食分享</span>
+                    <span class="feature-tag">积分兑换</span>
+                </div>
+            </div>
+            <div class="phone-single">
+                <img src="photo/27.png" alt="好物推荐">
+            </div>
+        </div>
+    </section>
+
+    <section class="plate-section">
+        <div class="section-header">
+            <span class="section-tag">个性展示</span>
+            <h2 class="section-title">你的车牌，你说了算</h2>
+            <p class="section-desc">多种风格，挑一个最对味的</p>
+        </div>
+        <div class="plate-grid">
+            <div class="plate-item">
+                <img src="photo/29.png" alt="个性车牌1">
+            </div>
+            <div class="plate-item">
+                <img src="photo/30.png" alt="个性车牌2">
+            </div>
+            <div class="plate-item">
+                <img src="photo/31.png" alt="个性车牌3">
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 20px; color: var(--text-secondary); font-size: 16px;">
+            在车友圈里，用<span class="highlight">专属车牌</span>秀出你的范儿
+        </p>
+    </section>
+
+    <section class="section">
+        <div class="feature-grid">
+            <div class="feature-content">
+                <div class="feature-icon">👤</div>
+                <h2 class="feature-title">个人中心</h2>
+                <p class="feature-text">
+                    你的车、你的积分、你的活动...<br>
+                    全都在这儿，清清楚楚<br><br>
+                    绑定车辆信息，活动报名<span class="highlight-blue">自动填</span><br>
+                    管理帖子、收藏、订单<br><br>
+                    这就是你在车友圈的小基地 🏠
+                </p>
+                <div class="feature-tags">
+                    <span class="feature-tag">车辆管理</span>
+                    <span class="feature-tag">积分中心</span>
+                    <span class="feature-tag">活动记录</span>
+                </div>
+            </div>
+            <div class="phone-single">
+                <img src="photo/28.png" alt="个人中心">
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2 class="cta-title">还等啥？</h2>
+        <p class="cta-desc">加入米车 Club，车友们都在等你呢</p>
+        <a href="#" class="cta-btn">
+            <span>🚗</span>
+            <span>马上加入</span>
+        </a>
+    </section>
+
+    <footer class="footer">
+        <p>米车 Club · 让每次开车都有意思</p>
+        <p style="margin-top: 8px; opacity: 0.5;">© 2026 米车 Club. All rights reserved.</p>
+    </footer>
+</body>
+</html>
