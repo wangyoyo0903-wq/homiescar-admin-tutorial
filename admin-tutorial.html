@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>米车 Club 会长/管理员操作指南</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --color-primary: #E74C3C;
@@ -468,6 +469,53 @@
             font-size: 14px;
         }
 
+        .export-pdf-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--color-primary), #C0392B);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+            transition: all 0.3s;
+        }
+
+        .export-pdf-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .export-pdf-btn:active {
+            transform: translateY(0);
+        }
+
+        .export-pdf-btn.loading {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        @media print {
+            .sidebar, .export-pdf-btn {
+                display: none !important;
+            }
+            main {
+                margin-left: 0 !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+        }
+
         @media (max-width: 900px) {
             .sidebar {
                 display: none;
@@ -488,6 +536,14 @@
     </style>
 </head>
 <body>
+    <button class="export-pdf-btn" id="exportPdfBtn" onclick="exportToPDF()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        导出PDF
+    </button>
     <nav class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
@@ -1206,6 +1262,40 @@
                 this.classList.add('active');
             });
         });
+
+        function exportToPDF() {
+            const btn = document.getElementById('exportPdfBtn');
+            btn.classList.add('loading');
+            btn.innerHTML = '<span style="animation: spin 1s linear infinite;">⏳</span> 生成中...';
+            
+            const element = document.querySelector('.content');
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: '米车Club管理员操作指南.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#0f0f0f',
+                    logging: false
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+
+            html2pdf().set(opt).from(element).save().then(function() {
+                btn.classList.remove('loading');
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 导出PDF';
+            }).catch(function(err) {
+                console.error('PDF export failed:', err);
+                btn.classList.remove('loading');
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> 导出PDF';
+                alert('导出失败，请重试');
+            });
+        }
     </script>
 </body>
 </html>
