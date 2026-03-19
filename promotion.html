@@ -213,44 +213,46 @@
         .phone-stack {
             position: relative;
             height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
         }
 
         .phone-stack-item {
-            position: absolute;
-            width: 240px;
+            width: 200px;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             border: 2px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s;
+            transition: z-index 0s;
+            flex-shrink: 0;
+        }
+
+        .phone-stack-item:nth-child(1) {
+            transform: rotate(-3deg) translateY(20px);
+            z-index: 1;
+        }
+
+        .phone-stack-item:nth-child(2) {
+            transform: rotate(0deg);
+            z-index: 2;
+        }
+
+        .phone-stack-item:nth-child(3) {
+            transform: rotate(3deg) translateY(20px);
+            z-index: 1;
         }
 
         .phone-stack-item:hover {
-            transform: scale(1.05) !important;
             z-index: 10;
+            box-shadow: 0 25px 70px rgba(231, 76, 60, 0.3);
         }
 
         .phone-stack-item img {
             width: 100%;
             display: block;
-        }
-
-        .phone-stack-item:nth-child(1) {
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%) rotate(-5deg);
-        }
-
-        .phone-stack-item:nth-child(2) {
-            top: 60px;
-            left: 50%;
-            transform: translateX(-80%) rotate(3deg);
-        }
-
-        .phone-stack-item:nth-child(3) {
-            top: 120px;
-            left: 50%;
-            transform: translateX(-20%) rotate(-2deg);
         }
 
         .phone-single {
@@ -405,11 +407,13 @@
             }
 
             .phone-stack {
-                height: 400px;
+                height: auto;
+                flex-wrap: wrap;
+                gap: 15px;
             }
 
             .phone-stack-item {
-                width: 180px;
+                width: 140px;
             }
 
             .plate-item {
