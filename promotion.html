@@ -169,13 +169,16 @@
 
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            grid-template-columns: auto auto;
+            gap: 40px;
             align-items: center;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .feature-content {
-            padding: 10px;
+            max-width: 320px;
         }
 
         .feature-icon {
@@ -271,7 +274,7 @@
 
         .plate-section {
             background: linear-gradient(180deg, var(--bg-dark) 0%, #0f0f1a 50%, var(--bg-dark) 100%);
-            padding: 100px 20px;
+            padding: 80px 20px;
         }
 
         .plate-grid {
@@ -279,14 +282,14 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 30px;
-            max-width: 900px;
+            gap: 25px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 40px 0;
+            padding: 30px 0;
         }
 
         .plate-item {
-            width: 200px;
+            width: 180px;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
@@ -317,18 +320,18 @@
 
         .cta-section {
             text-align: center;
-            padding: 120px 20px;
+            padding: 100px 20px;
             background: radial-gradient(ellipse at center, rgba(231, 76, 60, 0.1) 0%, transparent 70%);
         }
 
         .cta-title {
-            font-size: 48px;
+            font-size: 42px;
             font-weight: 800;
             margin-bottom: 20px;
         }
 
         .cta-desc {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-secondary);
             margin-bottom: 40px;
         }
@@ -404,6 +407,12 @@
             .feature-grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
+                max-width: 100%;
+            }
+
+            .feature-content {
+                max-width: 100%;
+                text-align: center;
             }
 
             .phone-stack {
@@ -431,7 +440,8 @@
             }
 
             .feature-grid {
-                gap: 20px;
+                gap: 25px;
+                max-width: 700px;
             }
 
             .phone-stack {
