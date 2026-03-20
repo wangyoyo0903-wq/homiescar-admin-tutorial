@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>米车 Club - 页面管理后台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #151515;
+            --bg-input: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --text-muted: rgba(255,255,255,0.5);
+            --color-primary: #E74C3C;
+            --color-success: #27AE60;
+            --color-warning: #F39C12;
+            --border-color: rgba(255,255,255,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #219a52;
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-card);
+            padding: 4px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: var(--bg-input);
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .image-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-input);
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .image-item:hover {
+            border-color: var(--color-primary);
+        }
+
+        .image-item img {
+            width: 100%;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-item .name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: rgba(0,0,0,0.8);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .image-item .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--color-success);
+            color: white;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--color-primary);
+            background: rgba(231, 76, 60, 0.05);
+        }
+
+        .upload-zone input {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .status-text.success {
+            color: var(--color-success);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .config-section {
+            margin-bottom: 30px;
+        }
+
+        .config-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .token-input {
+            font-family: monospace;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alert-warning {
+            background: rgba(243, 156, 18, 0.1);
+            border: 1px solid var(--color-warning);
+            color: var(--color-warning);
+        }
+
+        .alert-info {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 米车 Club 页面管理后台</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="previewPage()">预览页面</button>
+                <button class="btn btn-primary" onclick="showPublishModal()">发布更新</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('content')">文字内容</button>
+            <button class="tab" onclick="switchTab('images')">图片管理</button>
+            <button class="tab" onclick="switchTab('settings')">设置</button>
+        </div>
+
+        <!-- 文字内容面板 -->
+        <div id="content-panel" class="panel active">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">页面文字配置</h2>
+                </div>
+
+                <div class="config-section">
+                    <h3>顶部区域</h3>
+                    <div class="form-group">
+                        <label class="form-label">页面标题</label>
+                        <input type="text" class="form-input" id="pageTitle" value="米车 Club">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">副标题</label>
+                        <textarea class="form-input form-textarea" id="pageSubtitle">车友在哪？就在这儿！
+一起玩车、一起嗨，别再一个人闷头开了</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hero区域描述</label>
+                        <input type="text" class="form-input" id="heroDesc" value="官方活动通知、活动报名，第一时间掌握">
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>全国车友</h3>
+                    <div class="form-group">
+                        <label class="form-label">城市列表</label>
+                        <input type="text" class="form-input" id="cityList" value="北京、武汉、河北，郑州，内蒙，江西、深圳...全国车友都在这儿">
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>邀请有礼</h3>
+                    <div class="form-group">
+                        <label class="form-label">邀请标题</label>
+                        <input type="text" class="form-input" id="inviteTitle" value="拉上车友一起玩">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">邀请描述</label>
+                        <input type="text" class="form-input" id="inviteDesc" value="分享海报，兄弟和闺蜜一起到位">
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3>页脚信息</h3>
+                    <div class="form-group">
+                        <label class="form-label">Slogan</label>
+                        <input type="text" class="form-input" id="footerSlogan" value="米车 Club · 让每次开车都有意思">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">描述文字</label>
+                        <input type="text" class="form-input" id="footerDesc" value="米车Club小程序由一群热爱小米的车友自发设计，欢迎提建议或加入我们">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">感谢语</label>
+                        <input type="text" class="form-input" id="footerThanks" value="因为有你，小米汽车变得更好">
+                    </div>
+                </div>
+
+                <button class="btn btn-success" onclick="saveContent()">保存文字配置</button>
+            </div>
+        </div>
+
+        <!-- 图片管理面板 -->
+        <div id="images-panel" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">上传新图片</h2>
+                </div>
+                <div class="upload-zone" onclick="document.getElementById('imageInput').click()">
+                    <input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageUpload(event)">
+                    <div class="upload-icon">📁</div>
+                    <p>点击或拖拽图片到这里上传</p>
+                    <p style="color: var(--text-muted); font-size: 12px; margin-top: 8px;">支持 PNG, JPG 格式</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">已上传的图片</h2>
+                    <button class="btn btn-secondary" onclick="refreshImages()">刷新列表</button>
+                </div>
+                <div class="image-grid" id="imageGrid">
+                    <p style="color: var(--text-muted);">加载中...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置面板 -->
+        <div id="settings-panel" class="panel">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">GitHub 配置</h2>
+                </div>
+                
+                <div class="alert alert-warning">
+                    ⚠️ 注意：Token 会保存在本地浏览器中，请勿在公共电脑上保存敏感信息。
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">GitHub Token</label>
+                    <input type="password" class="form-input token-input" id="githubToken" placeholder="ghp_xxxxxxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="githubUsername" value="wangyoyo0903-wq">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">仓库名</label>
+                    <input type="text" class="form-input" id="githubRepo" value="homiescar-admin-tutorial">
+                </div>
+
+                <button class="btn btn-primary" onclick="saveSettings()">保存设置</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">生成更新脚本</h2>
+                </div>
+                <div class="alert alert-info">
+                    💡 如果无法直接发布，可以生成 PowerShell 脚本手动执行。
+                </div>
+                <button class="btn btn-secondary" onclick="generateScript()">生成更新脚本</button>
+                <div id="scriptOutput" style="margin-top: 20px; display: none;">
+                    <label class="form-label">生成的脚本</label>
+                    <textarea class="form-input form-textarea" id="scriptContent" style="font-family: monospace; min-height: 200px;"></textarea>
+                    <button class="btn btn-secondary" style="margin-top: 10px;" onclick="copyScript()">复制脚本</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发布确认弹窗 -->
+    <div class="modal" id="publishModal">
+        <div class="modal-content">
+            <h3 class="modal-title">确认发布更新？</h3>
+            <p style="color: var(--text-secondary);">这将更新 GitHub 上的页面内容，确定要继续吗？</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closePublishModal()">取消</button>
+                <button class="btn btn-success" onclick="publishChanges()">确认发布</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <span class="status-text" id="statusText">就绪</span>
+        <span style="color: var(--text-muted); font-size: 12px;">最后更新: <span id="lastUpdate">-</span></span>
+    </div>
+
+    <script>
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            loadContent();
+        });
+
+        // 切换标签页
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}-panel`).classList.add('active');
+            
+            if (tabName === 'images') {
+                refreshImages();
+            }
+        }
+
+        // 保存设置
+        function saveSettings() {
+            const settings = {
+                token: document.getElementById('githubToken').value,
+                username: document.getElementById('githubUsername').value,
+                repo: document.getElementById('githubRepo').value
+            };
+            localStorage.setItem('homiescar_settings', JSON.stringify(settings));
+            setStatus('设置已保存', 'success');
+        }
+
+        // 加载设置
+        function loadSettings() {
+            const saved = localStorage.getItem('homiescar_settings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('githubToken').value = settings.token || '';
+                document.getElementById('githubUsername').value = settings.username || 'wangyoyo0903-wq';
+                document.getElementById('githubRepo').value = settings.repo || 'homiescar-admin-tutorial';
+            }
+        }
+
+        // 保存内容配置
+        function saveContent() {
+            const content = {
+                pageTitle: document.getElementById('pageTitle').value,
+                pageSubtitle: document.getElementById('pageSubtitle').value,
+                heroDesc: document.getElementById('heroDesc').value,
+                cityList: document.getElementById('cityList').value,
+                inviteTitle: document.getElementById('inviteTitle').value,
+                inviteDesc: document.getElementById('inviteDesc').value,
+                footerSlogan: document.getElementById('footerSlogan').value,
+                footerDesc: document.getElementById('footerDesc').value,
+                footerThanks: document.getElementById('footerThanks').value
+            };
+            localStorage.setItem('homiescar_content', JSON.stringify(content));
+            setStatus('文字配置已保存', 'success');
+        }
+
+        // 加载内容配置
+        function loadContent() {
+            const saved = localStorage.getItem('homiescar_content');
+            if (saved) {
+                const content = JSON.parse(saved);
+                Object.keys(content).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = content[key];
+                });
+            }
+        }
+
+        // 刷新图片列表
+        function refreshImages() {
+            const grid = document.getElementById('imageGrid');
+            grid.innerHTML = '<p style="color: var(--text-muted);">正在加载...</p>';
+            
+            // 这里需要调用后端API获取图片列表
+            // 由于是纯前端，这里显示提示信息
+            grid.innerHTML = `
+                <div class="alert alert-info" style="grid-column: 1/-1;">
+                    💡 图片列表需要通过 GitHub API 获取。请使用"生成更新脚本"功能来上传图片。
+                </div>
+            `;
+        }
+
+        // 处理图片上传
+        function handleImageUpload(event) {
+            const files = event.target.files;
+            if (files.length === 0) return;
+            
+            setStatus(`准备上传 ${files.length} 张图片...`, '');
+            
+            // 由于浏览器安全限制，无法直接上传到GitHub
+            // 这里生成上传脚本
+            alert('由于浏览器安全限制，请使用"设置"面板中的"生成更新脚本"功能来上传图片。');
+        }
+
+        // 预览页面
+        function previewPage() {
+            window.open('https://wangyoyo0903-wq.github.io/homiescar-admin-tutorial/promotion.html', '_blank');
+        }
+
+        // 显示发布弹窗
+        function showPublishModal() {
+            document.getElementById('publishModal').classList.add('show');
+        }
+
+        // 关闭发布弹窗
+        function closePublishModal() {
+            document.getElementById('publishModal').classList.remove('show');
+        }
+
+        // 发布更新
+        async function publishChanges() {
+            const settings = JSON.parse(localStorage.getItem('homiescar_settings') || '{}');
+            const content = JSON.parse(localStorage.getItem('homiescar_content') || '{}');
+            
+            if (!settings.token) {
+                alert('请先在设置中配置 GitHub Token');
+                closePublishModal();
+                switchTab('settings');
+                return;
+            }
+
+            setStatus('正在发布...', '');
+
+            // 这里需要调用GitHub API更新文件
+            // 由于CORS限制，纯前端无法直接调用
+            alert('由于浏览器安全限制，请使用"生成更新脚本"功能。');
+            closePublishModal();
+        }
+
+        // 生成更新脚本
+        function generateScript() {
+            const content = JSON.parse(localStorage.getItem('homiescar_content') || '{}');
+            const settings = JSON.parse(localStorage.getItem('homiescar_settings') || '{}');
+            
+            const script = `# 米车 Club 页面更新脚本
+# 请在 PowerShell 中运行此脚本
+
+$token = "${settings.token || 'YOUR_TOKEN_HERE'}"
+$username = "${settings.username || 'wangyoyo0903-wq'}"
+$repoName = "${settings.repo || 'homiescar-admin-tutorial'}"
+
+$headers = @{
+    Authorization = "token $token"
+    Accept = "application/vnd.github.v3+json"
+}
+
+# 获取当前文件
+$fileUrl = "https://api.github.com/repos/$username/$repoName/contents/promotion.html"
+$existing = Invoke-RestMethod -Uri $fileUrl -Headers $headers -Method GET
+$sha = $existing.sha
+
+# 更新内容说明:
+# 页面标题: ${content.pageTitle || '米车 Club'}
+# 副标题: ${content.pageSubtitle || ''}
+# 城市列表: ${content.cityList || ''}
+
+Write-Host "请手动编辑 promotion.html 文件后，使用以下命令上传:"
+Write-Host ""
+Write-Host 'powershell -ExecutionPolicy Bypass -File "upload_promotion.ps1"'
+`;
+
+            document.getElementById('scriptContent').value = script;
+            document.getElementById('scriptOutput').style.display = 'block';
+            setStatus('脚本已生成', 'success');
+        }
+
+        // 复制脚本
+        function copyScript() {
+            const textarea = document.getElementById('scriptContent');
+            textarea.select();
+            document.execCommand('copy');
+            setStatus('脚本已复制到剪贴板', 'success');
+        }
+
+        // 设置状态
+        function setStatus(text, type) {
+            const el = document.getElementById('statusText');
+            el.textContent = text;
+            el.className = 'status-text' + (type ? ' ' + type : '');
+            
+            if (type === 'success') {
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+            }
+        }
+    </script>
+</body>
+</html>
